@@ -40,6 +40,7 @@
       <compileType>
         <cTool>
           <standard>10</standard>
+          <commandLine>-DDEBUG</commandLine>
         </cTool>
         <linkerTool>
           <linkerAddLib>
@@ -80,6 +81,15 @@
         <asmTool>
           <developmentMode>5</developmentMode>
         </asmTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>/usr/local/lib</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs libcares`</linkerOptionItem>
+            <linkerOptionItem>-lev</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
       <item path="error.c" ex="false" tool="0" flavor2="0">
       </item>

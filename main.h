@@ -41,7 +41,7 @@ extern "C" {
 #define MAXCONTIME 3.0 // in seconds
 #define MAXRECVTIME 3.0 // in seconds
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
 #define debug(fmt, ...)   do{ \

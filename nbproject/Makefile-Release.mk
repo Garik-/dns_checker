@@ -54,7 +54,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-L/usr/local/lib `pkg-config --libs libcares` -lev  
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -67,17 +67,17 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/dns_checker: ${OBJECTFILES}
 ${OBJECTDIR}/error.o: error.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/error.o error.c
+	$(COMPILE.c) -O2 `pkg-config --cflags libcares` -std=c11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/error.o error.c
 
 ${OBJECTDIR}/ev_ares.o: ev_ares.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ev_ares.o ev_ares.c
+	$(COMPILE.c) -O2 `pkg-config --cflags libcares` -std=c11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ev_ares.o ev_ares.c
 
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
+	$(COMPILE.c) -O2 `pkg-config --cflags libcares` -std=c11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
 
 # Subprojects
 .build-subprojects:

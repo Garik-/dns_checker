@@ -41,7 +41,7 @@ OBJECTFILES= \
 
 
 # C Compiler Flags
-CFLAGS=
+CFLAGS=-DDEBUG
 
 # CC Compiler Flags
 CCFLAGS=
