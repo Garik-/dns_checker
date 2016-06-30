@@ -1,6 +1,6 @@
 /**
  * @author Gar|k <garik.djan@gmail.com>
- * @copyright (c) 2015, http://c0dedgarik.blogspot.ru/
+ * @copyright (c) 2016, http://c0dedgarik.blogspot.ru/
  * @version 1.0
  */
 

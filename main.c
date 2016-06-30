@@ -14,11 +14,32 @@ sig_handler(int signum) {
     sigterm = 1;
 }
 
+static long 
+mtime() {
+    struct timeval t;
+
+    gettimeofday(&t, NULL);
+    long mt = (long) t.tv_sec * 1000 + t.tv_usec / 1000;
+    return mt;
+}
+
 static void
 print_usage(const char * name) {
     err_quit("Usage: %s [KEY]... DOMAIN-LIST\n\n\
 \t-n\tnumber asynchronous requests, default %d\n\
 \t-o\toutput file found domains, default stdout\n\n", name, MAXPENDING);
+}
+
+static void
+print_stat(options_t *options, const long *time_start) {
+    fprintf(stdout, "DNS checked domains: %zu; found: %zu; not found: %zu (%d%%); \
+pending: %d; time: %ld milliseconds\n",
+            options->counters.domains,
+            options->counters.dnsfound,
+            options->counters.dnsnotfound,
+            (options->counters.dnsnotfound > 0 ? ((options->counters.dnsnotfound * 100) / options->counters.domains) : 0),
+            options->pending_requests,
+            mtime() - *time_start);
 }
 
 static char *
@@ -63,7 +84,6 @@ main_loop(void *vptr_args) {
 
                 if (line_size > 0 && (line[line_size - 1] == 'U' || line[line_size - 1] == 'u')) {
 
-
                     ev_ares_gethostbyname(options, line);
 
                     ++pending_requests;
@@ -103,6 +123,8 @@ main_loop(void *vptr_args) {
 
 int main(int argc, char** argv) {
 
+    const long time_start = mtime();
+    
     if (1 == argc) {
         print_usage(argv[0]);
     }
@@ -180,6 +202,7 @@ int main(int argc, char** argv) {
         err_quit("Ares error: %s", ares_strerror(status));
     }
 
+    print_stat(&options,&time_start);
     return status;
 }
 

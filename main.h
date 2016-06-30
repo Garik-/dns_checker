@@ -19,6 +19,7 @@ extern "C" {
 #include <stdbool.h>
 #include <sys/socket.h>
 #include <sys/mman.h>
+#include <sys/time.h>
 #include <sys/select.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
