@@ -141,7 +141,7 @@ int main(int argc, char** argv) {
     bzero(&options, sizeof (options_t));
 
     options.loop = EV_DEFAULT;
-    options.file.out = STDOUT_FILENO;
+    options.file.out = OUT_DEFAULT;
     options.timeout = MAXDNSTIME;
     options.pending_requests = MAXPENDING;
 

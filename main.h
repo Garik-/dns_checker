@@ -10,7 +10,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
 #include <ev.h>
 
 #include <stdio.h>
@@ -37,11 +37,12 @@ extern "C" {
 #define MAXLINE  4096 /* максимальная длина текстовой строки */
 #define MAXDNSTIME 5. // in seconds
 #define MAXPENDING 10
+#define OUT_DEFAULT STDOUT_FILENO
 
 #define MAXCONTIME 3.0 // in seconds
 #define MAXRECVTIME 3.0 // in seconds
 
-//#define DEBUG
+    //#define DEBUG
 
 #ifdef DEBUG
 #define debug(fmt, ...)   do{ \
@@ -89,12 +90,15 @@ extern "C" {
 
     void
     err_sys(const char *fmt, ...);
-    
+
     int
     ev_ares_init_options(options_t *options);
 
     void
     ev_ares_gethostbyname(options_t * options, const char *name);
+
+    size_t
+    write_out(const options_t * options, const struct hostent *host);
 
 #ifdef __cplusplus
 }

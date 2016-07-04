@@ -81,6 +81,8 @@ ev_ares_dns_callback(void *arg, int status, int timeouts, struct hostent *host) 
 
     debug("- found address name %s\n", host->h_name);
     __sync_fetch_and_add(&options->counters.dnsfound, 1);
+    
+    write_out(options,host);
 }
 
 int
