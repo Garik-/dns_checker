@@ -41,6 +41,9 @@ writen(int fd, const void *vptr, size_t n) {
 
 size_t
 write_out(const options_t * options, const struct hostent *host) {
+    
+    if(true == options->benchmark) return 0;
+    
     char buf[MAXLINE];
     int position;
     unsigned int len;
@@ -74,4 +77,28 @@ write_out(const options_t * options, const struct hostent *host) {
     }
 
     return len;
+}
+
+int
+write_stat(options_t *options, const long time) {
+    char buf[MAXLINE];
+    size_t len;
+    
+    if(false == options->benchmark) {
+        len = snprintf(buf, sizeof (buf),
+            "DNS resolved: %zu; found: %zu; not found: %zu (%zu%%); \
+pending requests: %d; time: %ld milliseconds\n",
+            options->counters.domains,
+            options->counters.dnsfound,
+            options->counters.dnsnotfound,
+            (options->counters.dnsnotfound > 0 ? ((options->counters.dnsnotfound * 100) / options->counters.domains) : 0),
+            options->pending_requests,
+            time
+            );
+    }
+    else {
+        len = snprintf(buf, sizeof (buf), "%d;%ld;\n", options->pending_requests, time);
+    }
+
+    return writen(OUT_DEFAULT, buf, len);
 }

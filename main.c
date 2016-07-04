@@ -14,7 +14,7 @@ sig_handler(int signum) {
     sigterm = 1;
 }
 
-static long 
+static long
 mtime() {
     struct timeval t;
 
@@ -28,18 +28,6 @@ print_usage(const char * name) {
     err_quit("Usage: %s [KEY]... DOMAIN-LIST\n\n\
 \t-n\tnumber asynchronous requests, default %d\n\
 \t-o\toutput file found domains, default stdout\n\n", name, MAXPENDING);
-}
-
-static void
-print_stat(options_t *options, const long *time_start) {
-    fprintf(stdout, "DNS checked domains: %zu; found: %zu; not found: %zu (%d%%); \
-pending: %d; time: %ld milliseconds\n",
-            options->counters.domains,
-            options->counters.dnsfound,
-            options->counters.dnsnotfound,
-            (options->counters.dnsnotfound > 0 ? ((options->counters.dnsnotfound * 100) / options->counters.domains) : 0),
-            options->pending_requests,
-            mtime() - *time_start);
 }
 
 static char *
@@ -124,12 +112,12 @@ main_loop(void *vptr_args) {
 int main(int argc, char** argv) {
 
     const long time_start = mtime();
-    
+
     if (1 == argc) {
         print_usage(argv[0]);
     }
 
-    char *opts = "n:o:";
+    char *opts = "bn:o:";
     int opt, status;
     options_t options;
 
@@ -138,15 +126,19 @@ int main(int argc, char** argv) {
     (void) signal(SIGINT, sig_handler);
     (void) signal(SIGTERM, sig_handler);
 
-    bzero(&options, sizeof (options_t));
+    memset(&options, 0, sizeof (options_t));
 
     options.loop = EV_DEFAULT;
     options.file.out = OUT_DEFAULT;
     options.timeout = MAXDNSTIME;
     options.pending_requests = MAXPENDING;
+    options.benchmark = false;
 
     while ((opt = getopt(argc, argv, opts)) != -1) {
         switch (opt) {
+            case 'b':
+                options.benchmark = true;
+                break;
             case 'n':
                 options.pending_requests = atoi(optarg);
                 break;
@@ -202,7 +194,7 @@ int main(int argc, char** argv) {
         err_quit("Ares error: %s", ares_strerror(status));
     }
 
-    print_stat(&options,&time_start);
+    write_stat(&options, (mtime() - time_start));
     return status;
 }
 

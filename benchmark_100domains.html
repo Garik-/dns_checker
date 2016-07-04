@@ -1,0 +1,26 @@
+  <html>
+  <head>
+    <title>Gar|k DNS resolver benckmark</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var time_data = google.visualization.arrayToDataTable([["pending_request","time"],[10,10053.666666667],[20,8379.3333333333],[30,3336.3333333333],[40,8493],[50,4734],[60,7156],[70,10211],[80,9236.6666666667],[90,10057],[100,10057]]);
+
+        var options = {
+          title: 'request & time (in milliseconds)',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('time_chart'));
+        chart.draw(time_data, options);
+
+      }
+    </script>
+  </head>
+  <body>
+    <div id="time_chart" style="width: 900px; height: 500px"></div>
+  </body>
+</html>

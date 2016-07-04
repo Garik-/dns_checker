@@ -99,5 +99,6 @@ ev_ares_init_options(options_t *options) {
 
 void
 ev_ares_gethostbyname(options_t * options, const char *name) {
+    __sync_fetch_and_add(&options->counters.domains, 1);
     ares_gethostbyname(options->ares.channel, name, AF_INET, ev_ares_dns_callback, (void *) options);
 }

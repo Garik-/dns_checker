@@ -79,6 +79,7 @@ extern "C" {
 
         int timeout;
         int pending_requests;
+        bool benchmark;
 
     } options_t;
 
@@ -99,6 +100,9 @@ extern "C" {
 
     size_t
     write_out(const options_t * options, const struct hostent *host);
+    
+    int 
+    write_stat(options_t *options, const long time);
 
 #ifdef __cplusplus
 }
