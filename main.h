@@ -81,12 +81,6 @@ extern "C" {
 
     } options_t;
 
-    typedef struct {
-        options_t * options;
-        char *name;
-
-    } domain_t;
-
     void
     err_ret(const char *fmt, ...);
 

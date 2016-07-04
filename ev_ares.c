@@ -7,30 +7,6 @@
 #include "main.h"
 
 static void
-free_domain(domain_t *domain) {
-
-    debug("-- free domain %s", domain->name);
-
-    if (NULL != domain->name) {
-        free(domain->name);
-    }
-
-    free(domain);
-}
-
-static domain_t *
-create_domain(options_t *options, const char *name) {
-    domain_t * domain = (domain_t *) malloc(sizeof (domain_t));
-    if (NULL != domain) {
-        domain->options = options;
-        domain->name = strdup(name);
-
-        __sync_fetch_and_add(&options->counters.domains, 1);
-    }
-    return domain;
-}
-
-static void
 ev_ares_io_handler(EV_P_ ev_io * watcher, int revents) {
 
     options_t * options = (options_t *) (((char *) watcher) - offsetof(options_t, ares.io));
@@ -94,20 +70,17 @@ ev_ares_sock_state_callback(void *data, int s, int read, int write) {
 static void
 ev_ares_dns_callback(void *arg, int status, int timeouts, struct hostent *host) {
 
-    domain_t *domain = (domain_t *) arg;
+    options_t *options = (options_t *) arg;
 
     if (!host || status != ARES_SUCCESS) {
         debug("- failed to lookup %s\n", ares_strerror(status));
-        __sync_fetch_and_add(&domain->options->counters.dnsnotfound, 1);
+        __sync_fetch_and_add(&options->counters.dnsnotfound, 1);
 
-        free_domain(domain);
         return;
     }
 
     debug("- found address name %s\n", host->h_name);
-    __sync_fetch_and_add(&domain->options->counters.dnsfound, 1);
-
-    free_domain(domain);
+    __sync_fetch_and_add(&options->counters.dnsfound, 1);
 }
 
 int
@@ -124,12 +97,5 @@ ev_ares_init_options(options_t *options) {
 
 void
 ev_ares_gethostbyname(options_t * options, const char *name) {
-
-    domain_t * domain = create_domain(options, name);
-    if (NULL == domain) {
-        err_ret("ev_ares_gethostbyname");
-        return;
-    }
-
-    ares_gethostbyname(options->ares.channel, domain->name, AF_INET, ev_ares_dns_callback, (void *) domain);
+    ares_gethostbyname(options->ares.channel, name, AF_INET, ev_ares_dns_callback, (void *) options);
 }
