@@ -1,1 +1,11 @@
 language: c
+sudo: false
+matrix:
+    include:
+        - os: linux
+          compiler: gcc
+          env: BUILD_TYPE=normal
+        - os: linux
+          compiler: clang
+          env: BUILD_TYPE=normal
+script: make
