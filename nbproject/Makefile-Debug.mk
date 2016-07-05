@@ -68,22 +68,22 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/dns_checker: ${OBJECTFILES}
 ${OBJECTDIR}/error.o: error.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -g `pkg-config --cflags libcares` -std=c11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/error.o error.c
+	$(COMPILE.c) -g `pkg-config --cflags libcares`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/error.o error.c
 
 ${OBJECTDIR}/ev_ares.o: ev_ares.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -g `pkg-config --cflags libcares` -std=c11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ev_ares.o ev_ares.c
+	$(COMPILE.c) -g `pkg-config --cflags libcares`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ev_ares.o ev_ares.c
 
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -g `pkg-config --cflags libcares` -std=c11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
+	$(COMPILE.c) -g `pkg-config --cflags libcares`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
 
 ${OBJECTDIR}/write.o: write.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -g `pkg-config --cflags libcares` -std=c11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/write.o write.c
+	$(COMPILE.c) -g `pkg-config --cflags libcares`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/write.o write.c
 
 # Subprojects
 .build-subprojects:
