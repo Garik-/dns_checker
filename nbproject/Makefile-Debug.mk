@@ -42,7 +42,7 @@ OBJECTFILES= \
 
 
 # C Compiler Flags
-CFLAGS=-DDEBUG
+CFLAGS=-DDEBUG -Wall -Wextra -Wmissing-prototypes
 
 # CC Compiler Flags
 CCFLAGS=

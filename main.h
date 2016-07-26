@@ -74,7 +74,7 @@ extern "C" {
         struct {
             int fd;
             int out;
-            size_t len;
+            off_t len;
         } file;
 
         int timeout;

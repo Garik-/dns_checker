@@ -27,6 +27,7 @@
                    displayName="Важные файлы"
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>.gitignore</itemPath>
       <itemPath>.travis.yml</itemPath>
       <itemPath>Makefile</itemPath>
       <itemPath>README.md</itemPath>
@@ -42,7 +43,7 @@
       </toolsSet>
       <compileType>
         <cTool>
-          <commandLine>-DDEBUG</commandLine>
+          <commandLine>-DDEBUG -Wall -Wextra -Wmissing-prototypes</commandLine>
         </cTool>
         <linkerTool>
           <linkerAddLib>

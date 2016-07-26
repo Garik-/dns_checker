@@ -6,7 +6,7 @@
 
 #include "main.h"
 
-static ssize_t /* Write "n" bytes to a descriptor. */
+static size_t /* Write "n" bytes to a descriptor. */
 writen(int fd, const void *vptr, size_t n) {
     size_t nleft;
     ssize_t nwritten;
@@ -34,8 +34,7 @@ write_out(const options_t * options, const struct hostent *host) {
     if(true == options->benchmark) return 0;
     
     char buf[MAXLINE];
-    int position;
-    unsigned int len;
+    size_t len;
     
     len = snprintf(buf, sizeof (buf), "%s:%s\n", host->h_name, inet_ntoa(*((struct in_addr *) host->h_addr_list[0])));
 
