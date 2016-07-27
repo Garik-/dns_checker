@@ -61,6 +61,10 @@ last_domain(const int fd) {
     if (fstat(fd, &statbuf) < 0 && S_ISREG(statbuf.st_mode)) {
         err_sys("fstat");
     }
+    
+    if(0 == statbuf.st_size) {
+        return NULL;
+    }
 
     if (lseek(fd, (sizeof (buffer) > statbuf.st_size ? 0 : statbuf.st_size - sizeof (buffer)), SEEK_SET) < 0) {
         err_sys("lseek");
