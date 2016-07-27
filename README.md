@@ -7,10 +7,11 @@ c-ares реализует механизм select() для неблокирую�
 Usage: dns_resolver [KEY]... DOMAIN-LIST
 
 	-n	number asynchronous requests
-	-o  output file found domains
+	-o	output file found domains
+	-c	continue with the last entry of the output file
 
 Example:
-$ dns_resolver -n 50 -o test_domains.dat test_domains.csv
+$ dns_resolver -n 50 -c -o domains_ip.csv domains.csv
 ```
 
 В данной реализации список доменов должен представлять из себя CSV файл, где первым значением идет имя домена.
