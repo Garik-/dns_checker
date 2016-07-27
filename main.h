@@ -32,6 +32,7 @@ extern "C" {
 #include <fcntl.h> /* для неблокируемых сокетов */
 #include <errno.h>
 #include <ares.h>
+#include <assert.h>
 
 
 #define MAXLINE  4096 /* максимальная длина текстовой строки */
@@ -74,6 +75,7 @@ extern "C" {
         struct {
             int fd;
             int out;
+            char *last_domain;
             off_t len;
         } file;
 
@@ -100,9 +102,15 @@ extern "C" {
 
     size_t
     write_out(const options_t * options, const struct hostent *host);
-    
-    int 
+
+    int
     write_stat(options_t *options, const long time);
+
+    size_t /* Read "n" bytes from a descriptor. */
+    readn(int fd, void *vptr, size_t n);
+
+    size_t /* Write "n" bytes to a descriptor. */
+    writen(int fd, const void *vptr, size_t n);
 
 #ifdef __cplusplus
 }

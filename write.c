@@ -6,7 +6,7 @@
 
 #include "main.h"
 
-static size_t /* Write "n" bytes to a descriptor. */
+size_t /* Write "n" bytes to a descriptor. */
 writen(int fd, const void *vptr, size_t n) {
     size_t nleft;
     ssize_t nwritten;
@@ -28,6 +28,29 @@ writen(int fd, const void *vptr, size_t n) {
     return (n);
 }
 
+size_t /* Read "n" bytes from a descriptor. */
+readn(int fd, void *vptr, size_t n) {
+    size_t nleft;
+    ssize_t nread;
+    char *ptr;
+
+    ptr = vptr;
+    nleft = n;
+    while (nleft > 0) {
+        if ((nread = read(fd, ptr, nleft)) < 0) {
+            if (errno == EINTR)
+                nread = 0; /* and call read() again */
+            else
+                return (-1);
+        } else if (nread == 0)
+            break; /* EOF */
+
+        nleft -= nread;
+        ptr += nread;
+    }
+    return (n - nleft); /* return >= 0 */
+}
+
 size_t
 write_out(const options_t * options, const struct hostent *host) {
     
@@ -36,7 +59,7 @@ write_out(const options_t * options, const struct hostent *host) {
     char buf[MAXLINE];
     size_t len;
     
-    len = snprintf(buf, sizeof (buf), "%s:%s\n", host->h_name, inet_ntoa(*((struct in_addr *) host->h_addr_list[0])));
+    len = snprintf(buf, sizeof (buf), "%s;%s\n", host->h_name, inet_ntoa(*((struct in_addr *) host->h_addr_list[0])));
 
     if (len != writen(options->file.out, buf, len)) {
         err_ret("[E] write_out");
