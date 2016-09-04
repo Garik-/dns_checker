@@ -55,10 +55,11 @@ size_t
 write_out(const options_t * options, const struct hostent *host) {
     
     if(true == options->benchmark) return 0;
+    if(AF_INET != host->h_addrtype || 0 == host->h_addr_list[0]) return 0;
     
     char buf[MAXLINE];
     size_t len;
-    
+        
     len = snprintf(buf, sizeof (buf), "%s;%s\n", host->h_name, inet_ntoa(*((struct in_addr *) host->h_addr_list[0])));
 
     if (len != writen(options->file.out, buf, len)) {

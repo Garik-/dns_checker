@@ -86,9 +86,13 @@ last_domain(const int fd) {
     }
 
     lseek(fd, 0, SEEK_END);
-    debug("last domain: %s", last_domain);
-
-    return strdup(last_domain);
+    
+    if(NULL != last_domain) {
+        debug("last domain: %s", last_domain);
+        return strdup(last_domain);
+    }
+    
+    return NULL;
 }
 
 static void *
